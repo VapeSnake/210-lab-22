@@ -29,7 +29,7 @@ public:
     void push_back(int value)
     {
         Node *newNode = new Node(value);
-        if (!tail) // if there's no tail, the list is empty
+        if (!tail) // if there's no tail, the list is empty.
             head = tail = newNode;
         else
         {
@@ -41,7 +41,7 @@ public:
     void push_front(int value)
     {
         Node *newNode = new Node(value);
-        if (!head) // if there's no head, the list is empty
+        if (!head) // if there's no head, the list is empty.
             head = tail = newNode;
         else
         {
@@ -77,25 +77,25 @@ public:
         if (temp->next)
             temp->next->prev = newNode;
         else
-            tail = newNode; // Inserting at the end
+            tail = newNode; // Inserting at the end.
         temp->next = newNode;
     }
     void delete_node(int value)
     {
         if (!head)
-            return; // Empty list
+            return; // Empty list.
         Node *temp = head;
         while (temp && temp->data != value)
             temp = temp->next;
         if (!temp)
-            return; // Value not found
+            return; // Value not found.
         if (temp->prev)
         {
             temp->prev->next = temp->next;
         }
         else
         {
-            head = temp->next; // Deleting the head
+            head = temp->next; // Deleting the head.
         }
         if (temp->next)
         {
@@ -103,46 +103,69 @@ public:
         }
         else
         {
-            tail = temp->prev; // Deleting the tail
+            tail = temp->prev; // Deleting the tail.
         }
         delete temp;
     }
-    void delete_pos(int position) // Deletes node by position rather than value
+    void delete_pos(int position) // Deletes node by position rather than value.
     {
-        if (position < 0) // Validate position
+        if (position < 0) // Validate position.
         {
             cout << "Position must be >= 0." << endl;
             return;
         }
-        if (!head) // If the list is empty, there's nothing to delete
+        if (!head) // If the list is empty, there's nothing to delete.
             return;
         Node *temp = head;
-        for (int i = 0; i < position && temp; ++i) // Traverse to the node at the specified position
+        for (int i = 0; i < position && temp; ++i) // Traverse to the node at the specified position.
             temp = temp->next;
-        if (!temp) // If the position exceeds the list size, do nothing
+        if (!temp) // If the position exceeds the list size, do nothing.
         {
             cout << "Position exceeds list size. Node not deleted.\n";
             return;
         }
-        if (temp->prev) // If the node to delete is not the head, update the previous node's next pointer
+        if (temp->prev) // If the node to delete is not the head, update the previous node's next pointer.
         {
             temp->prev->next = temp->next;
         }
-        else // If the node to delete is the head, update the head pointer
+        else // If the node to delete is the head, update the head pointer.
         {
-            head = temp->next; // Deleting the head
+            head = temp->next; // Deleting the head.
         }
-        if (temp->next) // If the node to delete is not the tail, update the next node's previous pointer
+        if (temp->next) // If the node to delete is not the tail, update the next node's previous pointer.
         {
             temp->next->prev = temp->prev;
         }
-        else // If the node to delete is the tail, update the tail pointer
+        else // If the node to delete is the tail, update the tail pointer.
         {
-            tail = temp->prev; // Deleting the tail
+            tail = temp->prev; // Deleting the tail.
         }
         delete temp;
     }
     void pop_front()
+    {
+        if (!head)
+            return; // Empty list.
+        Node *temp = head; // Store the current head to delete later.
+        head = head->next; // Move head to the next node.
+        if (head) // If the list is not empty after moving head, update the new head's previous pointer.
+            head->prev = nullptr; // Update the new head's previous pointer.
+        else
+            tail = nullptr; // List is now empty, so update tail as well.
+        delete temp; // Pops the old head node.
+    }
+    void pop_back()
+    {
+        if (!tail)
+            return; // Empty list.
+            Node *temp = tail; // Store the current tail to delete later.
+            tail = tail->prev; // Move tail to the previous node.
+        if (tail) // If the list is not empty after moving tail, update the new tail's next pointer.
+            tail->next = nullptr; // Update the new tail's next pointer.
+        else
+            head = nullptr; // List is now empty, so update head as well.
+        delete temp; // Pops the old tail node.
+    }
     void print()
     {
         Node *current = head;
