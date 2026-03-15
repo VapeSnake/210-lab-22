@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstdlib>
 using namespace std;
 const int MIN_NR = 10, MAX_NR = 99, MIN_LS = 5, MAX_LS = 20;
 class DoublyLinkedList
@@ -80,7 +81,7 @@ public:
             tail = newNode; // Inserting at the end.
         temp->next = newNode;
     }
-    void delete_node(int value)
+    void delete_value(int value)
     {
         if (!head)
             return; // Empty list.
@@ -88,7 +89,10 @@ public:
         while (temp && temp->data != value)
             temp = temp->next;
         if (!temp)
+        {
+            cout << "Value not found in the list.\n";
             return; // Value not found.
+        }
         if (temp->prev)
         {
             temp->prev->next = temp->next;
@@ -145,32 +149,35 @@ public:
     void pop_front()
     {
         if (!head)
-            return; // Empty list.
-        Node *temp = head; // Store the current head to delete later.
-        head = head->next; // Move head to the next node.
-        if (head) // If the list is not empty after moving head, update the new head's previous pointer.
+            return;               // Empty list.
+        Node *temp = head;        // Store the current head to delete later.
+        head = head->next;        // Move head to the next node.
+        if (head)                 // If the list is not empty after moving head, update the new head's previous pointer.
             head->prev = nullptr; // Update the new head's previous pointer.
         else
             tail = nullptr; // List is now empty, so update tail as well.
-        delete temp; // Pops the old head node.
+        delete temp;        // Pops the old head node.
     }
     void pop_back()
     {
         if (!tail)
-            return; // Empty list.
-            Node *temp = tail; // Store the current tail to delete later.
-            tail = tail->prev; // Move tail to the previous node.
-        if (tail) // If the list is not empty after moving tail, update the new tail's next pointer.
+            return;               // Empty list.
+        Node *temp = tail;        // Store the current tail to delete later.
+        tail = tail->prev;        // Move tail to the previous node.
+        if (tail)                 // If the list is not empty after moving tail, update the new tail's next pointer.
             tail->next = nullptr; // Update the new tail's next pointer.
         else
             head = nullptr; // List is now empty, so update head as well.
-        delete temp; // Pops the old tail node.
+        delete temp;        // Pops the old tail node.
     }
     void print()
     {
         Node *current = head;
         if (!current)
+        {
+            cout << "List is empty.\n";
             return;
+        }
         while (current)
         {
             cout << current->data << " ";
@@ -182,7 +189,10 @@ public:
     {
         Node *current = tail;
         if (!current)
+        {
+            cout << "List is empty.\n";
             return;
+        }
         while (current)
         {
             cout << current->data << " ";
@@ -203,17 +213,26 @@ public:
 // Driver program
 int main()
 {
-    DoublyLinkedList list;
-    int size = rand() % (MAX_LS - MIN_LS + 1) + MIN_LS;
+    srand(time(0)); // Seed the random number generator.
+    DoublyLinkedList list; // Create an instance of the DoublyLinkedList class.
+    int size = rand() % (MAX_LS - MIN_LS + 1) + MIN_LS; // Generate a random size for the list between MIN_LS and MAX_LS.
     for (int i = 0; i < size; ++i)
         list.push_back(rand() % (MAX_NR - MIN_NR + 1) + MIN_NR);
     cout << "List forward: ";
     list.print();
-    cout << "List backward: ";
-    list.print_reverse();
+    list.pop_front();
+    cout << "After pop_front: \n";
+    list.print();
+    cout << "After pop_back: \n";
+    list.pop_back();
+    list.print();
+    cout << "Deleting value at position 2: \n";
+    list.delete_pos(2);
+    list.print();
+    cout << "Looking for value 10 and deleting it if found: \n";
+    list.delete_value(10);
+    list.print();
     cout << "Deleting list, then trying to print.\n";
     list.~DoublyLinkedList();
-    cout << "List forward: ";
-    list.print();
     return 0;
 }
