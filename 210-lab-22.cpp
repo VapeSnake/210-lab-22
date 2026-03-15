@@ -114,34 +114,35 @@ public:
             cout << "Position must be >= 0." << endl;
             return;
         }
-        if (!head)
-            return; // Empty list
+        if (!head) // If the list is empty, there's nothing to delete
+            return;
         Node *temp = head;
-        for (int i = 0; i < position && temp; ++i)
+        for (int i = 0; i < position && temp; ++i) // Traverse to the node at the specified position
             temp = temp->next;
-        if (!temp)
+        if (!temp) // If the position exceeds the list size, do nothing
         {
             cout << "Position exceeds list size. Node not deleted.\n";
             return;
         }
-        if (temp->prev)
+        if (temp->prev) // If the node to delete is not the head, update the previous node's next pointer
         {
             temp->prev->next = temp->next;
         }
-        else
+        else // If the node to delete is the head, update the head pointer
         {
             head = temp->next; // Deleting the head
         }
-        if (temp->next)
+        if (temp->next) // If the node to delete is not the tail, update the next node's previous pointer
         {
             temp->next->prev = temp->prev;
         }
-        else
+        else // If the node to delete is the tail, update the tail pointer
         {
             tail = temp->prev; // Deleting the tail
         }
         delete temp;
     }
+    void pop_front()
     void print()
     {
         Node *current = head;
